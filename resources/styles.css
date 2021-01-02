@@ -1,0 +1,8 @@
+.timer {
+    font-size: 70;
+    fill: purple;
+    text-anchor: middle;
+    x: 50%;
+    y: 50%;
+    text-length: 8;
+}
