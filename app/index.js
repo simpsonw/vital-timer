@@ -6,21 +6,16 @@ import * as messaging from "messaging";
 let touchNode = document.getElementById("touch")
 let timerNode = document.getElementById("timer")
 let timerRunning = false;
-const timerLength = 15;
+const timerLength = 150;
 
 function init() {
     updateTimer(timerLength);
 }
 
-function pad(n) {
-    if (n < 10) {
-        n = "0"+n;
-    }
-    return n;
-}
-
 function updateTimer(duration) {
-    timerNode.text = pad(duration);
+    let seconds = Math.floor(duration/10);
+    let deciseconds = Math.floor(duration%10);
+    timerNode.text = seconds + "." + deciseconds;
 }
 
 init();
@@ -38,7 +33,7 @@ touchNode.addEventListener("mousedown", (evt) => {
             updateTimer(elapsedTime);
             elapsedTime--;
             display.poke();
-        }, 1000);
+        }, 100);
     }
 });
 
