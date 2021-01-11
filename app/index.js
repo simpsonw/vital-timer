@@ -3,13 +3,18 @@ import { display } from "display";
 import { vibration } from "haptics";
 import * as messaging from "messaging";
 
-let touchNode = document.getElementById("touch")
+let buttonNode = document.getElementById("button-1")
 let timerNode = document.getElementById("timer")
-let timerRunning = false;
+var timerRunning;
+var t;
+
 const timerLength = 150;
 
 function init() {
+    timerRunning = false;
     updateTimer(timerLength);
+    buttonNode.text = "START"
+    vibration.stop()
 }
 
 function updateTimer(duration) {
@@ -20,20 +25,24 @@ function updateTimer(duration) {
 
 init();
 
-touchNode.addEventListener("mousedown", (evt) => {
+buttonNode.addEventListener("mousedown", (evt) => {
     if (!timerRunning) {
+        buttonNode.text = "RESET"
         timerRunning = true;
-        let elapsedTime = timerLength;
-        let t = setInterval(function(){
-            if (elapsedTime == 0) {
-                vibration.start("ping");
-                timerRunning = false;
+        let startTime = Date.now();
+        t = setInterval(function(){
+            let elapsedTime = Date.now() - startTime;
+            let elapsedDeciseconds = Math.floor(elapsedTime / 100);
+            if (elapsedDeciseconds >= timerLength) {
+                vibration.start("alert");
                 clearInterval(t);
             }
-            updateTimer(elapsedTime);
-            elapsedTime--;
+            updateTimer(timerLength - elapsedDeciseconds);
             display.poke();
         }, 100);
+    } else {
+        clearInterval(t);
+        init();
     }
 });
 

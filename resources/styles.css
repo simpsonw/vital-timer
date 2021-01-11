@@ -1,8 +1,11 @@
-.timer {
-    font-size: 70;
-    fill: purple;
-    text-anchor: middle;
-    x: 50%;
-    y: 50%;
-    text-length: 8;
+.application-fill {
+    fill: fb-plum;
+}
+
+.foreground-fill {
+    fill: fb-white;
+}
+
+.background-fill {
+    fill: fb-black;
 }
