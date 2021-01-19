@@ -2,15 +2,19 @@ import document from "document";
 import { display } from "display";
 import { vibration } from "haptics";
 import * as messaging from "messaging";
+import * as simpleSettings from "./simple/device-settings";
 
-let buttonNode = document.getElementById("button-1")
-let timerNode = document.getElementById("timer")
+const defaultTimerLength = 150;
+let buttonNode = document.getElementById("button-1");
+let timerNode = document.getElementById("timer");
 var timerRunning;
 var t;
-
-const timerLength = 150;
+var timerLength;
 
 function init() {
+    if (typeof(timerLength) === "undefined") {
+        timerLength = defaultTimerLength;
+    }
     timerRunning = false;
     updateTimer(timerLength);
     buttonNode.text = "START"
@@ -47,23 +51,12 @@ buttonNode.addEventListener("mousedown", (evt) => {
     }
 });
 
-
-// Message is received
-messaging.peerSocket.onmessage = evt => {
-    console.log(`App received: ${JSON.stringify(evt)}`);
-    if (evt.data.key === "color" && evt.data.newValue) {
-        let color = JSON.parse(evt.data.newValue);
-        console.log(`Setting background color: ${color}`);
-        background.style.fill = color;
+function settingsCallback(data) {
+    console.log("settingsCallback: " + JSON.stringify(data));
+    if (data.duration) {
+        timerLength = data.duration.values[0].value;
+        updateTimer(timerLength);
     }
-};
+}
 
-// Message socket opens
-messaging.peerSocket.onopen = () => {
-    console.log("App Socket Open");
-};
-
-// Message socket closes
-messaging.peerSocket.onclose = () => {
-    console.log("App Socket Closed");
-};
+simpleSettings.initialize(settingsCallback);

@@ -3,11 +3,19 @@ registerSettingsPage(({ settings }) => (
     <Section
       title={
         <Text bold align="center">
-          MEOW App Settings
+         Vital Timer Settings 
         </Text>
       }
     >
-      <Text>Hello world!</Text>
+    <Select 
+      label={`Timer Duration`}
+      settingsKey="duration" 
+      options={[
+          {name: "15 seconds", value: "150"},
+          {name: "30 seconds", value: "300"},
+          {name: "60 seconds", value: "600"},
+      ]}
+    />
     </Section>
   </Page>
 ));

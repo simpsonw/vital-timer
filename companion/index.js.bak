@@ -1,0 +1,32 @@
+import { settingsStorage } from "settings";
+import * as messaging from "messaging";
+import { me as companion } from "companion";
+
+settingsStorage.addEventListener("change", (evt) => {
+    sendValue(evt.key, evt.newValue);
+});
+
+setDefaultSetting("duration", {"values":[{"name":"15 seconds","value":"150"}],"selected":[0]});
+
+function sendValue(key, val){
+    if (val) {
+        sendSettingData({
+            key: key,
+            value: JSON.parse(val)
+        });
+    }
+}
+
+function sendSettingData(data) {
+    if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
+        messaging.peerSocket.send(data);
+    } else {
+        console.log("No peerSocket connection");
+    }
+}
+
+function setDefaultSetting(key, value) {
+    console.log("Setting default value for " + key + " to " + JSON.stringify(value));
+    let extantValue = settingsStorage.getItem(key);
+    if (extantValue === null) settingsStorage.setItem(key, JSON.stringify(value));
+}
