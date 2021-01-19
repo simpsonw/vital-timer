@@ -3,13 +3,22 @@ import { display } from "display";
 import { vibration } from "haptics";
 import * as messaging from "messaging";
 import * as simpleSettings from "./simple/device-settings";
+import { FitFont } from 'fitfont';
 
 const defaultTimerLength = 150;
 let buttonNode = document.getElementById("button-1");
-let timerNode = document.getElementById("timer");
 var timerRunning;
 var t;
 var timerLength;
+
+const timerNode = new FitFont({
+        id:'timer',
+        font:'Roboto_Mono_120',
+        // Optional
+        halign: 'start',
+        valign: 'top',
+        letterspacing: 0
+});
 
 function init() {
     if (typeof(timerLength) === "undefined") {
@@ -24,6 +33,9 @@ function init() {
 function updateTimer(duration) {
     let seconds = Math.floor(duration/10);
     let deciseconds = Math.floor(duration%10);
+    if (seconds < 10) {
+        seconds = "0"+seconds;
+    }
     timerNode.text = seconds + "." + deciseconds;
 }
 
@@ -52,7 +64,6 @@ buttonNode.addEventListener("mousedown", (evt) => {
 });
 
 function settingsCallback(data) {
-    console.log("settingsCallback: " + JSON.stringify(data));
     if (data.duration) {
         timerLength = data.duration.values[0].value;
         updateTimer(timerLength);

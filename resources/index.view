@@ -1,6 +1,11 @@
 <svg>
     <svg class="horizontal-pad">
-        <text class="h1 center-text application-fill" x="50%" y="50%" id="timer">--.-</text>
+         <use href="#fitfont" id="timer" class="center-text h1 application-fill" x="0%" y="10%">
+            <use href="#fitfont-char"/>
+            <use href="#fitfont-char"/>
+            <use href="#fitfont-char"/>
+            <use href="#fitfont-char"/>
+        </use>
     </svg>
     <use id="button-1" href="#text-button" class="text-button bottom application-fill" />
 </svg>
