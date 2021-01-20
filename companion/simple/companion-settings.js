@@ -2,6 +2,7 @@ import * as messaging from "messaging";
 import { settingsStorage } from "settings";
 
 export function initialize() {
+  setDefaultSetting("duration", {"values":[{"name":"15 seconds","value":"150"}],"selected":[1]});
   settingsStorage.addEventListener("change", evt => {
     if (evt.oldValue !== evt.newValue) {
       sendValue(evt.key, evt.newValue);
@@ -24,4 +25,9 @@ function sendSettingData(data) {
   } else {
     console.log("No peerSocket connection");
   }
+}
+
+function setDefaultSetting(key, value) {
+    let extantValue = settingsStorage.getItem(key);
+    if (extantValue === null) settingsStorage.setItem(key, JSON.stringify(value));
 }
