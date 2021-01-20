@@ -3,14 +3,15 @@ registerSettingsPage(({ settings }) => (
     <Section
       title={
         <Text bold align="center">
-         Vital Timer Settings 
+         Vital Timer Settings
         </Text>
       }
     >
-    <Select 
+    <Select
       label={`Timer Duration`}
-      settingsKey="duration" 
+      settingsKey="duration"
       options={[
+          {name: "10 seconds", value: "100"},
           {name: "15 seconds", value: "150"},
           {name: "30 seconds", value: "300"},
           {name: "60 seconds", value: "600"},
