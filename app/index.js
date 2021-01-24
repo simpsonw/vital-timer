@@ -50,9 +50,11 @@ buttonNode.addEventListener("mousedown", (evt) => {
             let elapsedTime = Date.now() - startTime;
             let elapsedDeciseconds = Math.floor(elapsedTime / 100);
             if (elapsedDeciseconds >= timerLength) {
+                updateTimer(0);
                 buttonNode.text = "DISMISS"
                 vibration.start("alert");
                 clearInterval(t);
+                return
             }
             updateTimer(timerLength - elapsedDeciseconds);
             display.poke();
